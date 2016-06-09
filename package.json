@@ -5,6 +5,7 @@
   "description": "cdp",
   "scripts": {
     "start": "webpack --config tools/dev.config.js",
+    "deploy": "cd tools && ./deploy.sh",
     "build": "webpack --progress --hide-modules --config tools/prod.config.js"
   },
   "devDependencies": {
