@@ -1,0 +1,34 @@
+<p>{{post.number}}</p>
+<p>{{post.string}}</p>
+<p>{{post.textarea}}</p>
+<p>{{post.textarea1}}</p>
+<p>{{post.textarea2}}</p>
+<p>{{post.textarea3}}</p>
+<p>{{post.hash}}</p>
+<p>{{post.link}}</p>
+<p>{{post.anthor}}</p>
+
+<h3>数组输出</h3>
+
+{"arr1": [1,2,3,4]}
+
+{% for item in post.arr1 %}
+  <p>{{item}}</p>
+{% endfor %}
+
+{
+  "arr1": [
+    {"text": "text 1"}
+  ]
+}
+
+{% for item in post.arr2 %}
+  <p>{{item.title}}, {{item.text}}</p>
+{% endfor %}
+
+{{post.object.name}}
+{{post.object.age}}
+
+{% for key, val in post.object %}
+{{key}}: {{val}}
+{% endfor %}

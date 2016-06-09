@@ -1,0 +1,17 @@
+<h1>View 9</h1>
+
+{{globals.menus.primary}}
+<ul>
+{% for item in globals.menus.primary %}
+  <li id="item-{{loop.index}}">
+    <a href="#">{{item.title}}</a>
+    {% if item.sub_menu %}
+    <ul>
+      {% for sub_item in item.sub_menu %}
+        <li>{{sub_item.title}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
