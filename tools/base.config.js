@@ -2,7 +2,7 @@ var nib                 = require('nib');
 var path                = require('path');
 var webpack             = require('webpack');
 var poststylus          = require('poststylus');
-var url                 = require('./lib/url');
+var stylusUrl           = require('./lib/stylus-url');
 
 // http://webpack.github.io/docs/configuration.html
 
@@ -81,7 +81,7 @@ module.exports = {
   stylus: {
     use: [
       //nib(),
-      url({
+      stylusUrl({
         root: paths.src
       }),
       poststylus([ 'autoprefixer', 'lost' ]),

@@ -36,14 +36,14 @@ module.exports = {
         'src/globals/**/*',
         'src/assets/**/*',
         'tools/metalsmith.js',
-        'tools/collections.js',
+        'tools/lib/metalsmith-metadata.js',
       ],
       fn: function (event, file) {
         var bs = this
         if (!bs.paused) {
           bs.pause();
           metalsmith = require.reload('./metalsmith')
-          if (/extensions\.js$/.test(file)) {
+          if (/helpers\.js$/.test(file)) {
             metalsmith = metalsmith.metadata(require.reload('../src/helpers'))
           }
           //if (/metalsmith\.js$/.test(file)) {

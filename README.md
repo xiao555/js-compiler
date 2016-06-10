@@ -130,3 +130,4 @@ folder-4/folder-5/file-12.html
 ```
 
 globals 的数据不会生成文件
+

@@ -1,18 +1,14 @@
 var path = require('path')
-var _ = require('lodash')
 var nunjucks = require('nunjucks')
 var Metalsmith = require('./lib/metalsmith')
-var markdown = require('./markdown')
-//var markdown = require('metalsmith-markdown')
 var ignore = require('metalsmith-ignore')
 var beautify = require('metalsmith-beautify')
-var permalinks = require('metalsmith-permalinks');
-//var branch = require('metalsmith-branch');
+//var permalinks = require('metalsmith-permalinks');
 var collections = require('metalsmith-collections')
 var metadata = require('./lib/metalsmith-metadata')
 var views = require('./lib/metalsmith-views')
+var markdown = require('./lib/metalsmith-markdown')
 var helpers = require('../src/helpers')
-var marked = require('marked')
 
 require.reload = function reload(path) {
   delete require.cache[require.resolve(path)];
@@ -48,20 +44,18 @@ module.exports = Metalsmith(__dirname + '/../')
   .source('./src')
   .destination('./build')
   .use(markdown({
-    //renderer: new marked.Renderer(),
     html: true,
     breaks: true,
     typographer: true,
   }))
   .use(metadata())
-  .use(collections({
+  /*.use(collections({
     home: {
       pattern: 'posts/home/*.md',
       //sortBy: 'order',
       //reverse: true
     }
   }))
-  /*
   .use(
     permalinks({
       pattern: ':title',

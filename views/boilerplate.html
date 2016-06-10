@@ -6,4 +6,8 @@
 
 {{post.contents|safe}}
 
+{% for item in post.children %}
+  {{item.id}}
+{% endfor %}
+
 {% endblock %}

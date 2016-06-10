@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var path = require('path');
 var Matcher = require('minimatch').Minimatch;
 var extend = require('extend');
@@ -7,28 +8,53 @@ module.exports = plugin;
 
 function plugin(opts) {
 
-  var id = 0;
-
   return function(files, metalsmith, done) {
+    var id = 0;
     var metadata = metalsmith.metadata();
+    metadata.posts = metadata.posts || {}
+    metadata.posts.indexes = metadata.posts.indexes || {}
     Object.keys(files).forEach(function(file){
-      if (/(.*)\.html/.test(file)) {
-        var data = files[file]
+      if (/^globals(\/|\\)(.*)\.html/.test(file)) {
         var fileInfo = path.parse(file);
         var parts = fileInfo.dir.split(/\/|\\/);
         recompose( parts, {key: fileInfo.name, val: files[file]}, metadata );
-        if (/^posts(\/|\\)(.*)\.html/.test(file)) {
+      } else if (/^posts(\/|\\)(.*)\.html/.test(file)) {
+          var data = files[file]
+          //var fileInfo = path.parse(file);
           data.id = ++id
           link = file.replace(/^posts(\/|\\)/g, '')
+          var fileInfo = path.parse(link);
+          console.log(fileInfo)
+          //data.src = fileInfo.dir||fileInfo.name
           //console.log(link);
           if (Object.keys(data).indexOf('link') === -1) {
             data.link = link
           }
+          if (fileInfo.name == 'index') {
+            metadata.posts.indexes[fileInfo.dir||fileInfo.name] = data
+          } else {
+            if (fileInfo.dir === '') {
+              metadata.posts[fileInfo.name] = data;
+            } else {
+              metadata.posts[fileInfo.dir] = metadata.posts[fileInfo.dir] || []
+              if (Object.prototype.toString.call( metadata.posts[fileInfo.dir] ) !== '[object Array]') {
+                metadata.posts.indexes[fileInfo.dir] = metadata.posts[fileInfo.dir]
+                metadata.posts[fileInfo.dir] = []
+              }
+              metadata.posts[fileInfo.dir].push(data)
+            }
+          }
           files[link] = data
-        }
-        delete files[file];
       }
+      delete files[file];
     })
+    Object.keys(metadata.posts.indexes).forEach(function(index){
+      if (typeof metadata.posts[index] !== 'undefined') {
+        var data = metadata.posts.indexes[index]
+        data.children = metadata.posts[index]
+        metadata.posts.indexes[index] = data
+      }
+    });
     //console.log(metadata.posts);
     //Object.keys(files).forEach(function(file){
       //console.log(file);
