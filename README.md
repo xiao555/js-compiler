@@ -5,6 +5,20 @@ npm install
 npm start
 ```
 
+## 文件结构
+
+```py
+|- build          # 生成的预览目录
+|- src            # 源文件
+  |- assets       # 静态资源
+  |- globals      # 全局数据
+  |- posts        # 文件数据
+  |- scripts      # js 脚本
+  |- styles       # css 样式
+|- tools          # 前端构建核心
+|- views          # 模板页面
+```
+
 ## Data
 
 Data 分 posts 和 globals 两种类型，分别位于 `src/posts` 和 `src/globals` 目录下。数据文件格式支持 `.html` 和 `.md` 两种格式。`.md` 格式的数据会被 markdown 解析。
@@ -118,9 +132,9 @@ folder-4/folder-5/file-12.html
 
 ```python
 |- globals
-  |- options.yml
+  |- options.md
   |- blog
-    |- options.yml
+    |- options.md
 ```
 
 数据结构
@@ -138,3 +152,20 @@ folder-4/folder-5/file-12.html
 
 globals 的数据不会生成文件
 
+## YAML
+
+具体的 YAML 语法见[官网](http://yaml.org/spec/1.2/spec.html#Preview)
+
+额外说明
+
+```yml
+text: 单行文本
+
+textarea1: > 
+  多行文本，换行符会被过滤
+  如果需要添加一些多行但不想被换行的文本
+
+textarea2: |
+  用 "|" 的多行文本，换行符会保留下来
+  比如 markdown 的多行文本可以用这种方式添加
+```
