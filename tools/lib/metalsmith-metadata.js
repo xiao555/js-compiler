@@ -17,14 +17,17 @@ function plugin(opts) {
       if (/^globals(\/|\\)(.*)\.html/.test(file)) {
         var fileInfo = path.parse(file);
         var parts = fileInfo.dir.split(/\/|\\/);
+        metadata.globals = metadata.globals || {}
+        metadata.globals.index = metadata.globals.index || {}
         recompose( parts, {key: fileInfo.name, val: files[file]}, metadata );
+        metadata.globals = extend(true, metadata.globals.index, metadata.globals);
       } else if (/^posts(\/|\\)(.*)\.html/.test(file)) {
           var data = files[file]
           //var fileInfo = path.parse(file);
           data.id = ++id
           link = file.replace(/^posts(\/|\\)/g, '')
           var fileInfo = path.parse(link);
-          console.log(fileInfo)
+          //console.log(fileInfo)
           //data.src = fileInfo.dir||fileInfo.name
           //console.log(link);
           if (Object.keys(data).indexOf('link') === -1) {
@@ -51,11 +54,13 @@ function plugin(opts) {
     Object.keys(metadata.posts.indexes).forEach(function(index){
       if (typeof metadata.posts[index] !== 'undefined') {
         var data = metadata.posts.indexes[index]
-        data.children = metadata.posts[index]
+        data.children = _.sortBy(metadata.posts[index], function(post) {
+          return post[data.sortBy || 'id'] || post.id
+        })
         metadata.posts.indexes[index] = data
       }
     });
-    //console.log(metadata.posts);
+    //console.log(metadata.globals);
     //Object.keys(files).forEach(function(file){
       //console.log(file);
     //})
@@ -65,7 +70,7 @@ function plugin(opts) {
 
 function recompose(keys, data, metadata) {
   if (data.key == 'index') {
-    return
+    //return
   }
   if (keys.length === 0) {
     return
