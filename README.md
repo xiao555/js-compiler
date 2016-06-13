@@ -1,3 +1,10 @@
+## Developer Guide
+
+```
+npm install
+npm start
+```
+
 ## Data
 
 Data 分 posts 和 globals 两种类型，分别位于 `src/posts` 和 `src/globals` 目录下。数据文件格式支持 `.html` 和 `.md` 两种格式。`.md` 格式的数据会被 markdown 解析。
