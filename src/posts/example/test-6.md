@@ -1,13 +1,7 @@
 ---
 title: Test 6
-layout: example/view-6.html # 模板文件的相对位置是在 views 目录下
+layout: example/view-6.html
 key2: value2
 ---
 
-## Heading 2
-
-<h1>Heading 2</h1>
-
-content 5.1
-
-<p>content 5.2</p>
+layout 参数可以设置数据文件对应的模板，模板文件的相对位置是在 views 目录下
