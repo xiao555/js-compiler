@@ -32,3 +32,5 @@
 {% for key, val in post.object %}
 {{key}}: {{val}}
 {% endfor %}
+
+{{post.contents|safe}}

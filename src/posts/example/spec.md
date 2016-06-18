@@ -70,10 +70,6 @@ object:
   age: 18
 ---
 
-## Heading 2
+两行 `---` 中间的数据为标准 YAML 语法的头部信息，需要关联上模板之后才可以使用。
 
-<h1>Heading 2</h1>
-
-content 5.1
-
-<p>content 5.2</p>
+正文为主体内容，`.html` 格式的文件正文不会被解析，`.md` 格式的文件正文会被 markdown 解析。

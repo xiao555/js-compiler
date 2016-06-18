@@ -35,20 +35,13 @@ module.exports = {
         'src/posts/**/*',
         'src/globals/**/*',
         'src/assets/**/*',
-        'tools/metalsmith.js',
-        'tools/lib/metalsmith-metadata.js',
+        'tools/metalsmith.js'
       ],
       fn: function (event, file) {
         var bs = this
         if (!bs.paused) {
           bs.pause();
           metalsmith = require.reload('./metalsmith')
-          if (/helpers\.js$/.test(file)) {
-            metalsmith = metalsmith.metadata(require.reload('../src/helpers'))
-          }
-          //if (/metalsmith\.js$/.test(file)) {
-            //metalsmith = require.reload('./metalsmith')
-          //}
           metalsmith.build(function (err) {
             if (err) {
               console.log(err)

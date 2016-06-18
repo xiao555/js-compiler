@@ -2,7 +2,7 @@ var nib                 = require('nib');
 var path                = require('path');
 var webpack             = require('webpack');
 var poststylus          = require('poststylus');
-var stylusUrl           = require('./lib/stylus-url');
+var stylusUrl           = require('stylus-url');
 
 // http://webpack.github.io/docs/configuration.html
 
@@ -43,9 +43,9 @@ module.exports = {
     'ttf|eot|otf': 'file-loader?name=static/[hash].[ext]',
 
     styling: {
-      'css': 'css-loader?sourceMap',
+      'css': 'css-loader',
       'less': 'less-loader',
-      'styl': 'stylus-loader?sourceMap',
+      'styl': 'stylus-loader',
       'scss|sass': 'sass-loader'
     },
 

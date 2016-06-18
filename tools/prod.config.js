@@ -2,9 +2,9 @@ var path                = require('path');
 var webpack             = require("webpack");
 var CleanWebpackPlugin  = require('clean-webpack-plugin')
 var ExtractTextPlugin   = require("extract-text-webpack-plugin");
-var makeConfig          = require('./lib/makeConfig')
+var webpackConfigExtend = require('webpack-config-extend')
 
-module.exports = makeConfig({
+module.exports = webpackConfigExtend(require('./base.config'), {
   //devtool: 'source-map',
   separateStylesheet: true,
   vue:{

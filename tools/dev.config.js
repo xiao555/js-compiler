@@ -1,13 +1,12 @@
-var path = require('path');
-var webpack = require('webpack')
-var BrowserSyncPlugin  = require('browser-sync-webpack-plugin');
-var makeConfig = require('./lib/makeConfig')
-var bsOptions = require('./bs.options')
+var path                = require('path')
+var webpack             = require('webpack')
+var BrowserSyncPlugin   = require('browser-sync-webpack-plugin')
+var webpackConfigExtend = require('webpack-config-extend')
 
-module.exports = makeConfig({
+module.exports = webpackConfigExtend(require('./base.config'), {
   debug: true,
   watch: true,
-  separateStylesheet: true,
+  separateStylesheet: false,
   devtool: 'source-map',
   /*
   devServer: {
@@ -24,7 +23,7 @@ module.exports = makeConfig({
   plugins: [
    // HotModuleReplacementPlugin is autoloaded
     new BrowserSyncPlugin(
-      bsOptions,
+      require('./bs.options'),
       // plugin options 
       {
         // prevent BrowserSync from reloading the page 
