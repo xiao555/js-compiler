@@ -1,18 +1,20 @@
-## Developer Guide
+# 开发指南
 
-```
-npm install
-npm start
+## 运行脚本
+
+```bash
+npm install  # 按照 package 依赖
+npm start # 运行
 ```
 
 ## 文件结构
 
-```py
+```bash
 |- build          # 生成的预览目录
 |- src            # 源文件
   |- assets       # 静态资源
   |- globals      # 全局数据
-  |- posts        # 文件数据
+  |- posts        # 页面数据
   |- scripts      # js 脚本
   |- styles       # css 样式
 |- tools          # 前端构建核心
@@ -21,217 +23,332 @@ npm start
 
 ## Data
 
-Data 分 posts 和 globals 两种类型，分别位于 `src/posts` 和 `src/globals` 目录下。数据文件格式支持 `.html` 和 `.md` 两种格式。`.md` 格式的数据会被 markdown 解析。
+Data 分 posts 和 globals 两种类型，分别位于 src/posts 和 src/globals 目录下。数据文件格式支持 .html 和 .md 两种格式。.md 格式的数据会被 markdown 解析。
 
-- posts 文章数据，文件会对应生成相应的 html 文件。
+- posts 页面数据，文件会对应生成相应的 html 文件。
 - globals 全局数据，文件不会生成 html 文件。
 
 ### Posts
 
-文件结构
+src
 
-```python
+```bash
 |- posts
-  # 首页
   |- index.md
   |- file-1.md
   |- file-2.md
-
-  # 同一目录下的文件数据为一组集合
-  |- folder-1           
+  |- folder-1
     |- file-3.md
     |- file-4.md
-
-  # 集合会排除 index 文件，index 文件为集合索引，可以通过 index 文件的 sortBy 字段设置集合的排序情况
-  |- folder-2
-    |- index.md
-    |- file-5.md
-    |- file-6.md
-
-  # file 和 folder 同名时，同名 file 文件为集合的索引。
-  |- folder-3.md
-  |- folder-3
-    |- file-7.md
-    |- file-8.md
-
-  # 多级目录，子目录为独立集合
-  |- folder-4
-    |- index.md
-    |- file-9.md
-    |- file-10.md
-    |- folder-5
-      |- index.md
-      |- file-11.md
-      |- file-12.md
 ```
 
-对应的全局 posts 对象
+uri
 
-```js
-{
-  "posts": {
-    "index": { // 所有 index 页面的集合
-      "index": { /* posts/index.md */ },
-      "folder-2": { /* posts/folder-2/index.md */ },
-      "folder-3": { /* posts/folder-3.md */ },
-      "folder-4": { /* posts/folder-4/index.md */ },
-      "folder-4/folder-5": { /* posts/folder-4/folder-5/index.md */ },
-    },
-    "file-1": { /* file-1.md */ },
-    "file-2": { /* file-2.md */ },
-    "folder-1": [
-      { /* file-3.md */ },
-      { /* file-4.md */ }
-    ],
-    "folder-2": [
-      { /* file-5.md */ },
-      { /* file-6.md */ }
-    ],
-    "folder-3": [
-      { /* file-7.md */ },
-      { /* file-8.md */ }
-    ],
-    // 多级目录，集合为一级目录文件
-    "folder-4": [
-      { /* file-9.md */ },
-      { /* file-10.md */ }
-    ],
-    // 多级目录，子目录为独立集合
-    "folder-4/folder-5": [
-      { /* file-11.md */ },
-      { /* file-12.md */ }
-    ]
-  }
-}
-```
-
-build
-
-```html
+```bash
 index.html
 file-1.html
 file-2.html
 folder-1/file-3.html
 folder-1/file-4.html
-folder-2/index.html
-folder-2/file-5.html
-folder-2/file-6.html
-folder-3.html
-folder-3/file-7.html
-folder-3/file-8.html
-folder-4/file-9.html
-folder-4/file-10.html
-folder-4/folder-5/index.html
-folder-4/folder-5/file-11.html
-folder-4/folder-5/file-12.html
 ```
 
 ### Globals
 
-文件结构
-
-```python
+```bash
 |- globals
+  |- index.md
   |- options.md
-  |- blog
-    |- options.md
 ```
-
-数据结构
 
 ```js
 {
   "globals": {
-    "options": {},
-    "blog": {
-      "options": {}
-    }
+    "key": "val", // => index.md
+    "options": {} // => options.md
   }
 }
 ```
 
-globals 的数据不会生成文件
-
 ## YAML
 
-具体的 YAML 语法见[官网](http://yaml.org/spec/1.2/spec.html#Preview)
+### 语法
 
-额外说明
+- "#" 是 YAML 的注释符，从这个字符一直到行尾，都会被解析器忽略。
+- 大小写敏感
+- 使用缩进表示层级关系（一般使用两个空格）
+- 缩进时不允许使用 Tab 键，只允许使用空格
+- 缩进的空格数目不重要，只要相同层级的元素左侧对齐即可
 
-```yml
-# layout 为关键字段，可以通过 layout 关联模板
-# 模板文件的相对位置是在 views 目录下
-layout: example/view-7.html 
+#### 模板
 
-# 数字类型
-number: 12
+layout 为保留字段，可以通过 layout 关联模板
+模板文件的相对位置是在 views 目录下
 
-# 字符串类型
-string: test string
-
-# 多行文本 1
-# 用引号引用的多行文本，可以不需要保持缩进
-# 换行符会被过滤
-textarea: "
-line 1
-line 2"
-
-# 多行文本 2，
-# 需要保持缩进
-# 多行文本 "#" 后是注释文本，不会输出
-textarea1: 
-  line 1
-  line 2 # 不会输出
-
-# 多行文本 3
-# 需要保持缩进
-# 用 "|" 的多行文本，换行符会被过滤
-# "#" 注释无效，"#" 后文本照样输出
-# 可以添加一些多行但不想被换行的文本
-textarea2: >
-  line 1
-  line 2，
-  line 3 # 注释无效，会输出
-
-# 多行文本 4
-# 需要保持缩进
-# 用 "|" 的多行文本，换行符会保留下来
-# "#" 注释无效，"#" 后文本照样输出
-# markdown 的多行文本可以用这种方式添加
-textarea3: |
-  line 1 
-  line 2 
-  line 3 # 注释无效，会输出
-
-# 开头带 "#" 的文本需要用引号引上 
-hash: "#contact"
-
-# 注释符号 "#" 前需要空格才表示注释
-# 以下文本 "#" 后的文本也会输出
-link: http://url#contact
-
-# 最简单的数组
-arr1: [1,2,3,4]
-
-# 带 key 的数组
-arr2:
-  - text: text 1
-    title: title 1
-  - text: text 2
-    title: title 2
-  - text: text 3
-    title: title 3
-  - text: text 4
-    title: title 4
-
-# 对象类型
-object:
-  name: xiao li
-  age: 18
+```yaml
+layout: index.html
 ```
 
-例子见
+#### 数字类型
 
-https://github.com/chenos/site-stone/blob/master/src/posts/example/test-7.md
+```yaml
+number: 12
+```
 
-https://github.com/chenos/site-stone/blob/master/views/example/view-7.html
+#### 布尔型
+
+```yaml
+boolean: true
+```
+
+#### 字符串类型
+
+```yaml
+string1: test string
+```
+
+如果含有 "#", ":" 等特殊字符时，需要用引号引上。
+
+```yaml
+string2: "test string: string"
+```
+
+多行文本
+
+```yaml
+# 可以使用 ">" 折叠换行
+string3: >
+  Foo
+  Bar
+
+# 可以使用 "|" 保留换行符
+string4: |
+  Foo
+  Bar
+```
+
+```js
+{
+  string3: "Foo Bar",
+  string4: "Foo\nBar"
+}
+```
+
+#### 对象
+
+```yaml
+object:
+  name: Steve
+  foo: bar
+```
+
+```js
+{
+  object: {
+    name: "Steve",
+    foo: "bar"
+  }
+}
+```
+
+#### 集合
+
+```yaml
+# 集合元素为纯量
+collection1:
+  - Cat
+  - Dog
+  - Goldfish
+
+# 集合元素为对象类型
+collection2:
+  - item    : Super Hoop
+    quantity: 1
+  - item    : Basketball
+    quantity: 4
+  - item    : Big Shoes
+    quantity: 1
+```
+
+```js
+{
+  collection1: ["Cat", "Dog", "Goldfish"],
+  collection2: [
+    {item: "Super Hoop", quantity: 1},
+    {item: "Basketball", quantity: 4},
+    {item: "Big Shoes", quantity: 1}
+  ]
+}
+```
+
+#### 自定义类型转换
+
+非标准 YAML 语法
+
+markdown 解析
+
+```yaml
+markdown: !!md |
+  # headline 1
+  ## headline 2
+```
+
+```js
+{
+  markdown: "<h1>headline 1</h1>\n<h2>headline 2</h2>"
+}
+```
+
+关联 post 数据，数据为对象类型，options 选填
+
+```yaml
+post: !!post file.md options
+```
+
+`file.md`
+
+```md
+---
+title: Title
+text: Text
+---
+```
+
+```js
+{
+  post: {
+    title: "Title",
+    text: "Text",
+    contents: ""
+  }
+}
+```
+
+关联 posts 数据，数据为集合类型
+
+```yaml
+posts: !!posts dir options
+```
+
+`posts/dir`
+
+```bash
+|- posts
+  |- dir
+    |- post-1.md
+    |- post-2.md
+```
+`post-1.md`
+```md
+---
+title: Title1
+text: Text1
+---
+```
+`post-2.md`
+```md
+---
+title: Title2
+text: Text2
+---
+```
+
+```js
+{
+  posts: [
+    {
+      title: "Title1",
+      text: "Text1",
+      contents: ""
+    },
+    {
+      title: "Title2",
+      text: "Text2",
+      contents: ""
+    }
+  ]
+}
+```
+
+关联模板
+
+```yaml
+view: !!view includes/view.html
+```
+`view.html`
+```html
+<h1>Title</h1>
+<p>Content</p>
+```
+
+```js
+{
+  view: "<h1>Title</h1>\n<p>Content</p>"
+}
+```
+
+## Markdown Extended
+
+按钮
+
+```md
+~[button text](link)
+```
+
+```html
+<span class="wp-button"><a href="link">button text</a></span>
+```
+
+视频
+
+```md
+![](https://www.youtube.com/watch?v=1Y7Mr_RJpmU)
+```
+
+```html
+<div class="embed-responsive video-iframe">
+  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1Y7Mr_RJpmU"></iframe>
+</div>
+```
+
+图片
+
+```md
+![atl|caption](src)
+```
+
+```html
+<div class="wp-caption">
+  <img atl="atl" src="src">
+  <p class="wp-caption-text">caption</p>
+</div>
+```
+
+分栏
+
+<pre data-lang="md">
+```first-col-3
+## 第一列
+```
+
+```col-6
+中间列
+```
+
+```last-col-3
+最后一列
+```
+</pre>
+
+```html
+<div class="row">
+  <div class="col-3">
+    <h2>第一列</h2>
+  </div>
+  <div class="col-6">
+    <p>中间列</p>
+  </div>
+  <div class="col-3">
+    <p>最后一列</p>
+  </div>
+</div>
+```
