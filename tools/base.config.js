@@ -43,10 +43,10 @@ module.exports = {
     'ttf|eot|otf': 'file-loader?name=static/[hash].[ext]',
 
     styling: {
-      'css': 'css-loader',
-      'less': 'less-loader',
-      'styl': 'stylus-loader',
-      'scss|sass': 'sass-loader'
+      'css': 'css-loader?sourceMap',
+      'less': 'less-loader?sourceMap',
+      'styl': 'stylus-loader?sourceMap',
+      'scss|sass': 'sass-loader?sourceMap'
     },
 
     original: [

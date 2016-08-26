@@ -6,7 +6,7 @@ var webpackConfigExtend = require('webpack-config-extend')
 module.exports = webpackConfigExtend(require('./base.config'), {
   debug: true,
   watch: true,
-  separateStylesheet: false,
+  separateStylesheet: true,
   devtool: 'source-map',
   /*
   devServer: {

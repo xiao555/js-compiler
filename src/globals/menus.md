@@ -1,34 +1,14 @@
 ---
-primary:
+# 除 index.md 的其他文件可以通过 `globals.filename.key` 取值，如：
+#
+# globals.menus.key1
+# globals.menus.key2
+
+key1: val1
+key2: val2
+
+main:
   -
-    title: HOME
-    link: /home/index.html
-    sub_menu:
-      - 
-        title: OUR CLIENTS LOVE US
-        link: "/home/index.html#our-clients-love-us"
-      - 
-        title: WHY INONE?
-        link: "/home/index.html#why-inone"
-      - 
-        title: BUILDING OPPORTUNITIES
-  -
-    title: About
-    link: /home/index.html
-second:
-  -
-    title: HOME
-    link: /home/index.html
-    sub_menu:
-      - 
-        title: OUR CLIENTS LOVE US
-        link: "/home/index.html#our-clients-love-us"
-      - 
-        title: WHY INONE?
-        link: "/home/index.html#why-inone"
-      - 
-        title: BUILDING OPPORTUNITIES
-  -
-    title: About
-    link: /home/index.html
+    title: 
+    link: 
 ---

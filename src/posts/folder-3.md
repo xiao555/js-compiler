@@ -1,4 +1,0 @@
----
-layout: boilerplate.html
----
-

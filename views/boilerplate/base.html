@@ -8,9 +8,9 @@
 </head>
 <body class="{% block body_class %}{% endblock %}">
   <div class="site">
-    {% include 'includes/header.html' ignore missing %}
+    {% include 'boilerplate/includes/header.html' ignore missing %}
     {% block main %}{% endblock %}
-    {% include 'includes/footer.html' ignore missing %}
+    {% include 'boilerplate/includes/footer.html' ignore missing %}
   </div>
   {{ site_footer() }}
 </body>

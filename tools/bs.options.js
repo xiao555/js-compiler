@@ -32,10 +32,12 @@ module.exports = {
     {
       match: [
         'views/**/*',
-        'src/posts/**/*',
-        'src/globals/**/*',
-        'src/assets/**/*',
-        'tools/metalsmith.js'
+        'src/**/*',
+        'src/**/*.crdownload',
+        'tools/metalsmith.js',
+        'tools/nunjucks-extended.js',
+        'node_modules/metalsmith-posts/lib/index.js',
+        'node_modules/metalsmith-extended/lib/index.js',
       ],
       fn: function (event, file) {
         var bs = this
