@@ -205,6 +205,11 @@ md:
   #   <div class="col-6"></div>
   #   <div class="col-3"></div>
   # </div>
+  #
+  # 需要注意的是：
+  # 第一列必须是 `first-col-*`
+  # 最后一列必须是 `last-col-*`
+  # 中间列必须是 `col-*`
   grid: !!md |
     ```first-col-3
     ## first column
