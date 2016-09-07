@@ -32,8 +32,10 @@ module.exports = {
     {
       match: [
         'views/**/*',
-        'src/**/*',
-        'src/**/*.crdownload',
+        'src/assets/**/*',
+        'src/globals/**/*',
+        'src/posts/**/*',
+        '!src/**/*.crdownload',
         'tools/metalsmith.js',
         'tools/nunjucks-extended.js',
         'node_modules/metalsmith-posts/lib/index.js',
