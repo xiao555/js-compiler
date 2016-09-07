@@ -3,7 +3,7 @@
 ## 脚本
 
 ```bash
-npm install  # 按照 package 依赖
+npm install  # 安装 package 依赖
 npm start # 运行
 ```
 
