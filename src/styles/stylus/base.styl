@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+global-reset()
+
+*,*:before,*:after
+  box-sizing: border-box
+
+body
+  -webkit-font-smoothing  antialiased
+  -moz-osx-font-smoothing grayscale
+  -webkit-text-size-adjust none
+  -webkit-overflow-scrolling touch
+button,input[type="submit"],input[type="checkbox"],input[type="radio"],select
+  cursor pointer
+  border 0
+
+input, button
+  margin: 0
+  padding: 0
+  &::-moz-focus-inner
+    border: 0
+    padding: 0
+
+.hidden,.hide
+  display none
+
+.left, .alignleft,.fl
+  float: left
+
+.right, .alignright,.fr
+  float: right
+
+.clear
+  clear: both
+
+.pointer
+  cursor pointer
+
+input
+  outline none
+  border 0
+
+button
+  background-color white
+  border none
+
+a
+  text-decoration: none
+
+
+table
+  border-collapse separate
+input:focus
+  outline none
+i
+  font-style:normal
+.clearfix,.cols,.row
+  clearfix()
+ol,ul
+  list-style none
+input,textarea
+  border-radius 0
+  box-shadow none
+  //-webkit-appearance: none
+  margin 0
+  font-family inherit
+strong
+  font-weight 700
+
+//bs
+#__bs_notify__
+  opacity .4
+  pointer-events none
