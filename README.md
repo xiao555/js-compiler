@@ -1,5 +1,15 @@
 # 开发指南
 
+## Bug
+
+- Views 模板报错，进程卡住，需要重新 `npm start`。
+- YAML 语法报错，进程卡住，需要重新 `npm start`。
+- 在大文件实时更新时，可能会报错。
+- `build` 目录文件只会覆盖不会删除旧文件，如果需要删除旧文件，需要把 build 手动删掉。
+- `build/assets` 目录会有多余文件。
+- `build/assets/static` 文件为 hash 命名，不同操作系统会生成不一样的 hash。手动部署时会造成重新上传的麻烦。
+- `npm start` 同时，没有 `minfiy/uglify` 处理，需要手动 `npm run build` 处理。
+
 ## 脚本
 
 ```bash
