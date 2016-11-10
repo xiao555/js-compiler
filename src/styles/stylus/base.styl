@@ -66,8 +66,30 @@ input,textarea
   font-family inherit
 strong
   font-weight 700
+em
+  font-style italic
+sup
+  vertical-align super
+  font-size smaller
+sub
+  vertical-align sub
+  font-size smaller
 
 //bs
 #__bs_notify__
   opacity .4
   pointer-events none
+
+
+//admin bar
+#wpadminbar
+  width auto
+  min-width 0
+  opacity .5
+  transition all .5s ease-out
+  &:hover
+    opacity 1
+  #wp-admin-bar-customize,#wp-admin-bar-wp-logo,#wp-admin-bar-comments,#wp-admin-bar-themes,#wp-admin-bar-new-content,#wp-admin-bar-search,#wp-admin-bar-top-secondary,#wp-admin-bar-updates
+    display none
+  @media screen and (max-width 768px)
+    display none
