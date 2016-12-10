@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <title>{{post.title}}</title>
+  {{ site_head() }}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="site">
+    {% include 'boilerplate/includes/header.html' ignore missing %}
+    {% block main %}{% endblock %}
+    {% include 'boilerplate/includes/footer.html' ignore missing %}
+  </div>
+  {{ site_footer() }}
+</body>
+</html>

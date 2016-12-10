@@ -1,0 +1,128 @@
+{# 这是一段注释，模版引擎使用 nunjucks，详细语法参考 http://mozilla.github.io/nunjucks/templating.html #}
+
+{# 
+  模版对应的文件数据全部存放在 post 对象里
+  可以使用 post.key 的方式调用值，如：
+  - post.layout
+  - post.title
+  - post.contents
+#}
+
+{% extends 'boilerplate/base.html' %}
+
+{% block body_class %}no-found{% endblock %}
+
+{% block main %}
+
+<h2>Scalar</h2>
+
+<p>Scalar 类型可以直接输出。</p>
+
+<p><strong>layout:</strong></p> 
+<pre>{{ post.layout }}</pre>
+
+<p><strong>number:</strong></p> 
+<pre>{{ post.number }}</pre>
+
+<p><strong>bool:</strong> 布尔值最终会被转换为小写</p> 
+<pre>{{ post.bool }}</pre>
+
+<p><strong>str1:</strong></p> 
+<pre>{{ post.str1 }}</pre>
+
+<p><strong>str2:</strong></p> 
+<pre>{{ post.str2 }}</pre>
+
+<p><strong>str3:</strong></p> 
+<pre>{{ post.str3 }}</pre>
+
+<p><strong>str4:</strong> 特殊字符被转义了</p> 
+<pre>{{ post.str4 }}</pre>
+
+<p><strong>str5:</strong> 折叠换行</p> 
+<pre>{{ post.str5 }}</pre>
+
+<p><strong>str6:</strong></p> 
+<pre>{{ post.str6 }}</pre>
+
+<h2>Collection</h2>
+
+<p><strong>map:</strong></p> 
+<p>Map 类型也是对象类型，可以通过键名取值输出。</p>
+
+<pre>{{post.map}}
+{{post.map.name}}
+{{post.map.hr}}
+{{post.map.avg}}</pre>
+
+<p>Map 类型也是无序列表，可以 <code>for key, val in map</code> 遍历。</p>
+
+{% for key, val in post.map %}
+  <p><strong>{{key}}</strong>: <code>{{val}}</code></p>
+{% endfor %}
+
+<p><strong>omap:</strong> 元素为 map 类型的序列，通常需要遍历 `for map in omap`</p> 
+
+{% for map in post.omap %}
+  <pre>{{map.name}}
+{{map.hr}}
+{{map.avg}}</pre>
+{% endfor %}
+
+<p>遍历 map</p>
+
+{% for map in post.omap %}
+  {% for key, val in map %}
+    <p><strong>{{key}}</strong>: <code>{{val}}</code></p>
+  {% endfor %}
+{% endfor %}
+
+<p><strong>seq:</strong> 元素为 scalar 类型，直接输出即可。</p> 
+
+{% for scalar in post.seq %}
+  <p>{{scalar}}</p>
+{% endfor %}
+
+<h2>Custom Types</h2>
+
+<p><strong>markdown:</strong></p> 
+
+<pre>{{post.markdown|e}}</pre>
+<div>{{post.markdown}}</div>
+
+<p><strong>post:</strong></p> 
+
+<pre>{{post.post}}
+{{post.post.title}}</pre>
+
+<p><strong>posts:</strong></p> 
+
+<pre>{{post.posts}}</pre>
+
+{% for item in post.posts %}
+  <pre>{{item}}
+{{item.title}}</pre>
+{% endfor %}
+
+<p><strong>view:</strong></p> 
+<pre>{{ post.view|e }}</pre>
+<div>{{ post.view }}</div>
+
+<h2>Markdown Extended</h2>
+
+<p><strong>md.button:</strong></p> 
+<pre>{{post.md.button|e}}</pre>
+<div>{{post.md.button}}</div>
+
+<p><strong>md.video:</strong> 输出的 html 包含的 <code>&lt;p&gt;</code> 为 bug。</p> 
+<pre>{{post.md.video|e}}</pre>
+<div>{{post.md.video}}</div>
+
+<p><strong>md.figure:</strong> 输出的 html 包含的 <code>&lt;p&gt;</code> 为 bug。</p> 
+<pre>{{post.md.figure|e}}</pre>
+<div>{{post.md.figure}}</div>
+
+<p><strong>md.grid:</strong></p> 
+<pre>{{post.md.grid|e}}</pre>
+<div>{{post.md.grid}}</div>
+{% endblock %}
