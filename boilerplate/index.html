@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <title></title>
+  <base href="/">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/jquery.min.js"></script>
+</head>
+<body class="no-found">
+  <div class="site">
+    Header
+    
+
+<h2>Scalar</h2>
+
+<p>Scalar 类型可以直接输出。</p>
+
+<p><strong>layout:</strong></p> 
+<pre>boilerplate/index.html</pre>
+
+<p><strong>number:</strong></p> 
+<pre>12</pre>
+
+<p><strong>bool:</strong> 布尔值最终会被转换为小写</p> 
+<pre>true</pre>
+
+<p><strong>str1:</strong></p> 
+<pre>abcdefg hijklmn</pre>
+
+<p><strong>str2:</strong></p> 
+<pre>test string: string</pre>
+
+<p><strong>str3:</strong></p> 
+<pre>内容
+字符串</pre>
+
+<p><strong>str4:</strong> 特殊字符被转义了</p> 
+<pre>内容\n字符串</pre>
+
+<p><strong>str5:</strong> 折叠换行</p> 
+<pre>Sammy Sosa completed another fine season with great stats.
+
+  63 Home Runs
+  0.288 Batting Average
+
+What a year!
+</pre>
+
+<p><strong>str6:</strong></p> 
+<pre>\//||\/||
+// ||  ||__
+</pre>
+
+<h2>Collection</h2>
+
+<p><strong>map:</strong></p> 
+<p>Map 类型也是对象类型，可以通过键名取值输出。</p>
+
+<pre>[object Object]
+Mark McGwire
+65
+0.278</pre>
+
+<p>Map 类型也是无序列表，可以 <code>for key, val in map</code> 遍历。</p>
+
+
+  <p><strong>name</strong>: <code>Mark McGwire</code></p>
+
+  <p><strong>hr</strong>: <code>65</code></p>
+
+  <p><strong>avg</strong>: <code>0.278</code></p>
+
+
+<p><strong>omap:</strong> 元素为 map 类型的序列，通常需要遍历 `for map in omap`</p> 
+
+
+  <pre>Mark McGwire
+65
+0.278</pre>
+
+  <pre>Sammy Sosa
+63
+0.288</pre>
+
+
+<p>遍历 map</p>
+
+
+  
+    <p><strong>name</strong>: <code>Mark McGwire</code></p>
+  
+    <p><strong>hr</strong>: <code>65</code></p>
+  
+    <p><strong>avg</strong>: <code>0.278</code></p>
+  
+
+  
+    <p><strong>name</strong>: <code>Sammy Sosa</code></p>
+  
+    <p><strong>hr</strong>: <code>63</code></p>
+  
+    <p><strong>avg</strong>: <code>0.288</code></p>
+  
+
+
+<p><strong>seq:</strong> 元素为 scalar 类型，直接输出即可。</p> 
+
+
+  <p>Mark McGwire</p>
+
+  <p>Sammy Sosa</p>
+
+  <p>Ken Griffey</p>
+
+
+<h2>Custom Types</h2>
+
+<p><strong>markdown:</strong></p> 
+
+<pre>&lt;h3&gt;headline 1&lt;/h3&gt;
+&lt;h4&gt;headline 2&lt;/h4&gt;
+</pre>
+<div><h3>headline 1</h3>
+<h4>headline 2</h4>
+</div>
+
+<p><strong>post:</strong></p> 
+
+<pre>[object Object]
+Page Title</pre>
+
+<p><strong>posts:</strong></p> 
+
+<pre>[object Object],[object Object]</pre>
+
+
+  <pre>[object Object]
+Blog Title 1</pre>
+
+  <pre>[object Object]
+Blog Title 2</pre>
+
+
+<p><strong>view:</strong></p> 
+<pre>&lt;form action=&quot;?&quot;&gt;
+  &lt;input type=&quot;text&quot;&gt;
+  &lt;button&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</pre>
+<div><form action="?">
+  <input type="text">
+  <button>Submit</button>
+</form></div>
+
+<h2>Markdown Extended</h2>
+
+<p><strong>md.button:</strong></p> 
+<pre>&lt;p&gt;&lt;span class=&quot;wp-button&quot;&gt;&lt;a href=&quot;#&quot;&gt;button text&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+</pre>
+<div><p><span class="wp-button"><a href="#">button text</a></span></p>
+</div>
+
+<p><strong>md.video:</strong> 输出的 html 包含的 <code>&lt;p&gt;</code> 为 bug。</p> 
+<pre>&lt;p&gt;
+&lt;div class=&quot;embed-responsive video-iframe&quot;&gt;
+  &lt;iframe class=&quot;embed-responsive-item&quot; src=&quot;https://www.youtube.com/embed/1Y7Mr_RJpmU&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;/p&gt;
+</pre>
+<div><p>
+<div class="embed-responsive video-iframe">
+  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1Y7Mr_RJpmU"></iframe>
+</div>
+</p>
+</div>
+
+<p><strong>md.figure:</strong> 输出的 html 包含的 <code>&lt;p&gt;</code> 为 bug。</p> 
+<pre>&lt;p&gt;
+&lt;figure class=&quot;wp-caption&quot;&gt;
+  &lt;img src=&quot;http://dummyimage.com/100x50/00598c/fff&quot;&gt;
+  &lt;figcaption class=&quot;wp-caption-text&quot;&gt;caption text&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+</pre>
+<div><p>
+<figure class="wp-caption">
+  <img src="http://dummyimage.com/100x50/00598c/fff">
+  <figcaption class="wp-caption-text">caption text</figcaption>
+</figure>
+</p>
+</div>
+
+<p><strong>md.grid:</strong></p> 
+<pre>&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-3&quot;&gt;
+    &lt;h2&gt;first column&lt;/h2&gt;
+&lt;h2&gt;first column&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col-6&quot;&gt;
+    &lt;p&gt;column&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col-3&quot;&gt;
+    &lt;p&gt;last column&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+<div><div class="row">
+  <div class="col-3">
+    <h2>first column</h2>
+<h2>first column</h2>
+  </div>
+  <div class="col-6">
+    <p>column</p>
+  </div>
+  <div class="col-3">
+    <p>last column</p>
+  </div>
+</div></div>
+
+    Footer
+  </div>
+  <script src="assets/main.js"></script>
+</body>
+</html>
