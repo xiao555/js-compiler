@@ -177,14 +177,14 @@ function parser(tokens) {
   };
   while (current < tokens.length) {
     ast.body.push(walk());
-    console.log(ast);
+    // console.log(ast);
   }
 
 
   // 计算表达式
   function factor() {
     var token = tokens[current];
-    console.log(token.value);
+    // console.log(token.value);
     // paren
     if(token.type === 'PAREN' && token.value === '(') {
       current++;
@@ -211,13 +211,13 @@ function parser(tokens) {
       return node;
     } else {
       current++;
-      console.log("factor end: "+ tokens[current].value);
+      // console.log("factor end: "+ tokens[current].value);
       return token.value;
     }
   }
 
   function term_tail(lvalue) {
-    console.log('term_tail start: ' + lvalue + tokens[current].value);
+    // console.log('term_tail start: ' + lvalue + tokens[current].value);
     var token = tokens[current];
     if(token.value === '*' || token.value === '/') {
       current++;
@@ -230,7 +230,7 @@ function parser(tokens) {
       node.rvalue = expr();
       return node;
     } else {
-      console.log('term_tail end: '+ tokens[current].value);
+      // console.log('term_tail end: '+ tokens[current].value);
       return lvalue;
     }
   }
@@ -241,7 +241,7 @@ function parser(tokens) {
   }
 
   function expr_tail(lvalue) {
-    console.log('expr_tail start: '+lvalue+  tokens[current].value);
+    // console.log('expr_tail start: '+lvalue+  tokens[current].value);
     var token = tokens[current];
     if(token.value === '+' || token.value === '-') {
       current++;
@@ -263,13 +263,13 @@ function parser(tokens) {
       node.rvalue = expr();
       return node;
     } else {
-      console.log('expr_tail end: '+lvalue+ tokens[current].value);
+      // console.log('expr_tail end: '+lvalue+ tokens[current].value);
       return lvalue;
     }
   }
   // 计算表达式入口
   function expr() {
-    console.log("expr: " + tokens[current].value);
+    // console.log("expr: " + tokens[current].value);
     var lvalue = term();
     return expr_tail(lvalue);
   }
@@ -277,16 +277,16 @@ function parser(tokens) {
   // 语法分析入口
   function walk() {
     var token = tokens[current];
-    console.log('walk',token.value);
+    // console.log('walk',token.value);
     // IS
     if(token.type === 'IS') {
       current++;
-      console.log('IS:' + tokens[current].value);
+      // console.log('IS:' + tokens[current].value);
       return expr();
     }
     // SEMIC
     if(token.type === 'SEMIC') {
-      console.log(";");
+      // console.log(";");
       current++;
       if(current >= tokens.length) {
         return;
@@ -296,7 +296,7 @@ function parser(tokens) {
     }
     // )
     if(token.value === ')') {
-      console.log(")");
+      // console.log(")");
       current++;
       if(current >= tokens.length) {
         return;
@@ -308,7 +308,7 @@ function parser(tokens) {
        token.type === 'SCALE'  ||
        token.type === 'ROT'
        ) {
-      console.log(token.type);
+      // console.log(token.type);
       current++;
       var node = {
         type: 'statement',
@@ -316,7 +316,7 @@ function parser(tokens) {
         value: []
       };
       node.value = walk();
-      console.log('保留字：'+ node.value + ' ' + tokens[current].value);
+      // console.log('保留字：'+ node.value + ' ' + tokens[current].value);
       if(tokens[current].value === ',') {
         current++;
         var _value = node.value;
@@ -328,7 +328,7 @@ function parser(tokens) {
     }
 
     if(token.type === 'FOR') {
-      console.log(token.type);
+      // console.log(token.type);
       current++;
       var node = {
         type: 'statement',
@@ -353,7 +353,7 @@ function parser(tokens) {
               current++;
               node.params.push(expr());
               token = tokens[current];
-              console.log("DRAW:"+token.value );
+              // console.log("DRAW:"+token.value );
               while(token.value != ',') {
                 current++;
                 token = tokens[current];
@@ -374,7 +374,7 @@ function parser(tokens) {
   return ast;
 }
 
-
+// 从语法树生成代码
 function codeGenerator(node) {
   if(typeof(node) == 'string' || typeof(node) == 'number') {
     return node;
@@ -426,6 +426,7 @@ function accAdd(arg1, arg2) {
     return (arg1 + arg2) / m;
 }
 
+
 function droploop(params) {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
@@ -435,33 +436,26 @@ function droploop(params) {
 
   for (var i = params.length - 1; i >= 0; i--) {
     params[i] = codeGenerator(params[i]);
-    console.log(params[i]);
+    // console.log(params[i]);
   }
   var _from = eval(params[1]);
   var _to = eval(params[2]);
   var _step = eval(params[3]);
   var _x = params[4];
   var _y = params[5];
-  console.log(_from,_to,_step,_x,_y);
+  // console.log(_from,_to,_step,_x,_y);
   // }
   // 绘制像素
   var myImageData = ctx.getImageData(0,0,1,1);
+  console.log("    FOR: T", _from, _to, _x, _y);
   for (var T = _from; T <= _to; T+=_step) {
     // 获取原始的x,y
     var x = eval(_x);
     var y = eval(_y);
-    console.log(x,y);
-    console.log(rot);
-    console.log(Math.cos(rot),Math.sin(rot));
     // 获取进行一系列变化后的x,y
     var dx = accAdd(accAdd(origin_x,x*scale_x*Math.cos(rot)),y*scale_y*Math.sin(rot));
     var dy = accAdd(accAdd(origin_y,y*scale_y*Math.cos(rot)),-x*scale_x*Math.sin(rot));
-    console.log(x,y);
-    console.log(y*scale_y*Math.cos(rot));
-    console.log(-x);
-    console.log(scale_x);
-    console.log(Math.sin(rot));
-    console.log(-x*scale_x*Math.sin(rot));
+    // console.log(dx,dy);
     // 绘制坐标
     ctx.putImageData(myImageData,dx , dy);
   }
@@ -475,14 +469,17 @@ function draw(ast){
     switch(ast.body[i].name) {
       case "ROT":
         rot = eval(codeGenerator(ast.body[i].value));
+        console.log("    ROT:" + rot);
         break;
       case "ORIGIN":
         origin_x = ast.body[i].value[0];
         origin_y = ast.body[i].value[1];
+        console.log("    ORIGIN:" + origin_x , origin_y);
         break;
       case "SCALE":
         scale_x = ast.body[i].value[0];
         scale_y = ast.body[i].value[1];
+        console.log("    SCALE:" + scale_x, scale_y);
         break;
       case "FOR":
         droploop(ast.body[i].params);
