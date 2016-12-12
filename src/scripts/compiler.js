@@ -85,7 +85,7 @@ function lexer(input) {
       var decimal = 0;
       while(NUMBER.test(char) || char === '.') {
         if(char === '.') decimal++;
-        if(decimal > 1) throw new TypeError('错误的数字类型 on line:' + line, "compiler.js", 82);
+        if(decimal > 1) throw new TypeError('错误的数字类型'+ char +' on line:' + line, "compiler.js", 82);
         value += char;
         char = input[++current];
       }// while
@@ -140,7 +140,7 @@ function lexer(input) {
       current++;
       continue;
     }
-    throw new TypeError('语法错误 on line:' + line, "compiler.js", 137);
+    throw new TypeError('未识别的标识符'+ char +' on line:' + line, "compiler.js", 137);
   }// while
   return tokens;
 }
@@ -441,7 +441,7 @@ function draw(ast){
         droploop(ast.body[i].params);
         break;
       default:
-        throw new TypeError('错误: '+ ast.body[i] +' on ast.body:' + i, "compiler.js", 375);
+        throw new TypeError('执行错误: '+ ast.body[i] +' on ast.body:' + i, "compiler.js", 375);
     }
   }
 }
