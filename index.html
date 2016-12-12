@@ -12,6 +12,7 @@
     <header id="site-header" class="site-header">
   <div class="container">
     <h4>Canvas Compiler</h4>
+    <a href="https://github.com/xiao555/js-compiler/" target="_block">Visit on Github</a>
   </div>
 </header>
     
@@ -19,27 +20,19 @@
   <div class="container">
     <form class="code">
       <textarea id="codearea">
+// React
+origin is (150,150);
+scale is (20,80);
 rot is 0;
-origin is (200,400);
-//
---
-scale is (2,1);
-for T from 0 to 300 step 1 draw (t,0);
-for T from 0 to 300 step 1 draw (0,-t);
-for T from 0 to 120 step 1 draw (t,-t);
-scale is (2,0.1);
-for T from 0 to 55 step 1 draw (t,-(t*t));
-scale is (10,5);
-for T from 0 to 60 step 1 draw (t,-sqrt(t));
-scale is (20,0.1);
-for T from 0 to 8 step 0.1 draw (t,-exp(t));
-scale is (20,20);
-// for T from 0 to 300 step 1 draw (t,-log(t)); -- 这句log运行不了
-FOR T FROM 0 TO 2*PI STEP 0.1 DRAW (cos(T), sin(T));
+FOR T FROM 0 TO 2*PI STEP 0.01 DRAW (cos(T), sin(T));
+rot is PI/3;
+FOR T FROM 0 TO 2*PI STEP 0.01 DRAW (cos(T), sin(T));
+rot is 2*PI/3;
+FOR T FROM 0 TO 2*PI STEP 0.01 DRAW (cos(T), sin(T));
       </textarea>
     </form>
     <div class="canvas">
-      <canvas id="canvas" width="1000" height="600">
+      <canvas id="canvas" width="978" height="330">
         
       </canvas>
     </div>

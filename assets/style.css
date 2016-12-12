@@ -301,13 +301,25 @@ sub {
   overflow: hidden !important;
 }
 /*# sourceMappingURL=src/styles/stylus/common.css.map */#site-header {
-  height: 50px;
+  text-align: center;
 }
 #site-header h4 {
   text-align: center;
   font-size: 32px;
+  padding: 10px 0;
 }
-/*# sourceMappingURL=src/styles/stylus/header.css.map */.main .container {
+#site-header a {
+  color: #000;
+}
+#site-header a:hover {
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+}
+/*# sourceMappingURL=src/styles/stylus/header.css.map */.main {
+  padding: 0 20px;
+}
+.main .container {
   border: 1px solid #999;
   background-color: #d4d4d4;
   border-radius: 10px;
@@ -316,11 +328,35 @@ sub {
 .main .canvas {
   height: 330px;
   margin-top: 20px;
-  background-color: #fff;
+  background-color: #f7f7f7;
+  padding-left: 29px;
+  position: relative;
+}
+.main .canvas:before,
+.main .canvas:after {
+  content: "330";
+  color: #999;
+  width: 30px;
+  padding-right: 3px;
+  text-align: right;
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-right: 1px solid #ddd;
+}
+.main .canvas:before {
+  content: "0";
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .main .canvas canvas {
   width: 100%;
   height: 100%;
+  margin-left: -1px;
+  padding-left: 1px;
+  background-color: #fff;
 }
 .main .function {
   text-align: center;
