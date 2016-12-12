@@ -1,7 +1,7 @@
-
 // Global variables
+// Recording Current Line
 var line = 1;
-
+// Reserved symbol table
 var TokenTable =
 [
    ['CONST_ID',"PI",3],
@@ -23,19 +23,21 @@ var TokenTable =
    ['STEP',"STEP",0.0],
    ['DRAW',"DRAW",0.0]
 ];
-
+// Recording data
 var origin_x,
     origin_y,
     rot,
     scale_x,
     scale_y;
 
-// 词法分析
-// output = [
-// {type: "",value: "",...},
-// {type: "",value: "",...},
-// ...
-// ]
+/**
+* 词法分析
+* output = [
+*   {type: "",value: "",...},
+*   {type: "",value: "",...},
+*   ...
+* ]
+*/
 function lexer(input) {
   var current = 0;
   var tokens = [];
@@ -145,10 +147,26 @@ function lexer(input) {
   return tokens;
 }
 
-// AST 抽象语法树
-// output:
-// {type: 'Program', body: [...] }
-// 
+/** AST 抽象语法树
+* output: = [
+*   {type: 'Program', body: [
+*     {type: 'statement', name: "ROT", value: 0},
+*     {type: 'statement', name: "SCALE", value: [
+*       0: "20",
+*       1: "20"
+*     ]},
+*     {type: 'statement', name: "FOR", params: [
+*       0: "T",
+*       1: "0",
+*       2: {type: "expr", name: "*", lvalue: "2", rvalue: "3.1415926"},
+*       3: "0.1",
+*       4: {type: "Expression", name: "COS", params: "T"},
+*       5: {type: "Expression", name: "SIN", params: "T"},
+*     ]}
+*   ]}
+* ]
+* 
+*/ 
 function parser(tokens) {
   console.log("语法分析:");
   line = 1;
@@ -162,6 +180,8 @@ function parser(tokens) {
     console.log(ast);
   }
 
+
+  // 计算表达式
   function factor() {
     var token = tokens[current];
     console.log(token.value);
@@ -183,7 +203,7 @@ function parser(tokens) {
     } else if (token.type === 'FUNC'){
       current++;
       var node = {
-        type: 'CallExpression',
+        type: 'Expression',
         name: token.value,
         params: []
       };
@@ -247,13 +267,14 @@ function parser(tokens) {
       return lvalue;
     }
   }
-
+  // 计算表达式入口
   function expr() {
     console.log("expr: " + tokens[current].value);
     var lvalue = term();
     return expr_tail(lvalue);
   }
 
+  // 语法分析入口
   function walk() {
     var token = tokens[current];
     console.log('walk',token.value);
@@ -362,14 +383,47 @@ function codeGenerator(node) {
 
     case 'expr':
       return ("(" + codeGenerator(node.lvalue)+node.name+codeGenerator(node.rvalue)+")");
-    case 'CallExpression':
+    case 'Expression':
       return (
         '(Math.' +
         node.name.toLowerCase()+"("+node.params+"))"
       );
     default:
-      throw new TypeError(node);
+      throw new TypeError(node.type);
   }
+}
+
+// 加法函数，浮点数相加更精确
+function accAdd(arg1, arg2) {
+    var r1, r2, m, c;
+    try {
+        r1 = arg1.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r1 = 0;
+    }
+    try {
+        r2 = arg2.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r2 = 0;
+    }
+    c = Math.abs(r1 - r2);
+    m = Math.pow(10, Math.max(r1, r2));
+    if (c > 0) {
+        var cm = Math.pow(10, c);
+        if (r1 > r2) {
+            arg1 = Number(arg1.toString().replace(".", ""));
+            arg2 = Number(arg2.toString().replace(".", "")) * cm;
+        } else {
+            arg1 = Number(arg1.toString().replace(".", "")) * cm;
+            arg2 = Number(arg2.toString().replace(".", ""));
+        }
+    } else {
+        arg1 = Number(arg1.toString().replace(".", ""));
+        arg2 = Number(arg2.toString().replace(".", ""));
+    }
+    return (arg1 + arg2) / m;
 }
 
 function droploop(params) {
@@ -377,20 +431,7 @@ function droploop(params) {
   var ctx = canvas.getContext("2d");
 
   ctx.fillStyle = "rgb(200,0,0)";
-  ctx.fillRect (0, 0, 10, 10);
-  // function getString(object) {
-  //   console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-  //   for (var i = object.length - 1; i >= 0; i--) {
-  //     if(typeof(object[i]) == 'object') {
-  //       console.log("Object");
-  //       var str = getString(object[i]);
-  //       object[i] = "";
-  //       object[i] += str;
-  //       console.log(str);
-  //     }
-  //   }
-  //   return object.type == 'expr' ? "("+object.lvalue+object.name+object.rvalue+")" : "(Math."+object.name.toLowerCase()+"("+object.params+"))";
-  // }
+  ctx.fillRect (0, 0, 1, 1);
 
   for (var i = params.length - 1; i >= 0; i--) {
     params[i] = codeGenerator(params[i]);
@@ -406,17 +447,23 @@ function droploop(params) {
   // 绘制像素
   var myImageData = ctx.getImageData(0,0,1,1);
   for (var T = _from; T <= _to; T+=_step) {
+    // 获取原始的x,y
     var x = eval(_x);
     var y = eval(_y);
     console.log(x,y);
-    x = parseInt(origin_x) + parseInt(x*scale_x*Math.cos(rot)) + parseInt(y*scale_y*Math.sin(rot));
-    y = parseInt(origin_y) + parseInt(y*scale_y*Math.cos(rot)) + parseInt(x*scale_x*Math.sin(rot));
+    console.log(rot);
+    console.log(Math.cos(rot),Math.sin(rot));
+    // 获取进行一系列变化后的x,y
+    var dx = accAdd(accAdd(origin_x,x*scale_x*Math.cos(rot)),y*scale_y*Math.sin(rot));
+    var dy = accAdd(accAdd(origin_y,y*scale_y*Math.cos(rot)),-x*scale_x*Math.sin(rot));
     console.log(x,y);
-
-    // ctx.putImageData(myImageData,T,50);
-    // ctx.putImageData(myImageData,origin_x+parseInt((eval(_x)*scale_x)*Math.cos(rot)+(eval(_y)*scale_y)*Math.sin(rot)), origin_y+parseInt((eval(_y)*scale_y)*Math.cos(rot)+(eval(_x)*scale_x)*Math.sin(rot)));
-    // ctx.putImageData(myImageData,origin_x+parseInt((eval(_x)*scale_x)), origin_y+parseInt((eval(_y)*scale_y)));
-    ctx.putImageData(myImageData,x , y);
+    console.log(y*scale_y*Math.cos(rot));
+    console.log(-x);
+    console.log(scale_x);
+    console.log(Math.sin(rot));
+    console.log(-x*scale_x*Math.sin(rot));
+    // 绘制坐标
+    ctx.putImageData(myImageData,dx , dy);
   }
 }
 
@@ -427,7 +474,7 @@ function draw(ast){
     console.log("  Statement " + i);
     switch(ast.body[i].name) {
       case "ROT":
-        rot = ast.body[i].value;
+        rot = eval(codeGenerator(ast.body[i].value));
         break;
       case "ORIGIN":
         origin_x = ast.body[i].value[0];

@@ -1,4 +1,5 @@
 .main
+  padding 0 20px
   .container
     border 1px solid borderGray
     background-color inputBorderGray
@@ -7,9 +8,26 @@
   .canvas
     height 330px
     margin-top 20px
-    background-color white
+    background-color #f7f7f7
+    padding-left 29px
+    position relative
+    &:before,&:after
+      content "330"
+      color #999
+      width 30px
+      padding-right 3px
+      text-align right
+      font-size 13px
+      absolute bottom left
+      border-right 1px solid #ddd
+    &:before
+      content "0"
+      absolute top left
     canvas
       size 100%
+      margin-left -1px
+      padding-left 1px
+      background-color white
   .function
     text-align center
     margin-top 20px

@@ -10,7 +10,9 @@ var draw = compiler.draw;
 $(document).ready(function($) {
   // var operator = ['+','-','*','/','**'];
   // console.log(!!~operator.indexOf('+')); // true
-  
+  $(window).resize(function() {
+    $('canvas').attr("width",$('#canvas').width());
+  });
   // Init CodeMirror
   var editor = CodeMirror.fromTextArea(document.getElementById("codearea"), {
       lineNumbers: true,
